@@ -16,7 +16,7 @@ export default async function ActiveCommunities() {
   );
   const { data: communities } = await supabase
     .from("communities")
-    .select("**")
+    .select("*")
     .limit(3);
 
   if (!communities || communities.length === 0) {
