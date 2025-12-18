@@ -1,0 +1,37 @@
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+
+export default async function RecentMarketplaceListings() {
+  const supabase = createServerComponentClient({ cookies });
+  const { data: listings } = await supabase
+    .from("marketplace_listings")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  if (!listings || listings.length === 0) {
+    return (
+      <div>
+        <h2 className="text-xl font-bold mb-2">Recent Marketplace Listings</h2>
+        <p>No listings found.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h2 className="text-xl font-bold mb-2">Recent Marketplace Listings</h2>
+      <div className="space-y-2">
+        {listings.map((listing) => (
+          <div key={listing.id} className="flex items-center space-x-2">
+            <img src={listing.imageUrl} alt={listing.title} className="w-16 h-16 object-cover rounded-md" />
+            <div>
+              <h3 className="font-bold">{listing.title}</h3>
+              <p>{`$${listing.price}`}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
