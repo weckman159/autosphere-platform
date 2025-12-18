@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export default async function CarOfTheDay() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -30,8 +30,10 @@ export default async function CarOfTheDay() {
   return (
     <div>
       <h2 className="text-xl font-bold mb-2">Car of the Day</h2>
-      <img src={randomCar.imageUrl} alt={`${randomCar.make} ${randomCar.model}`} className="w-full h-64 object-cover rounded-md mb-2" />
-      <h3 className="text-lg font-bold">{`${randomCar.year} ${randomCar.make} ${randomCar.model}`}</h3>
+      <div className="border rounded-lg p-4">
+        <h3 className="font-bold">{randomCar.make} {randomCar.model}</h3>
+        <p className="text-sm text-gray-500">{randomCar.year}</p>
+      </div>
     </div>
   );
 }
