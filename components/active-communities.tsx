@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export default async function ActiveCommunities() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -16,7 +16,7 @@ export default async function ActiveCommunities() {
   );
   const { data: communities } = await supabase
     .from("communities")
-    .select("*")
+    .select("**")
     .limit(3);
 
   if (!communities || communities.length === 0) {
@@ -34,8 +34,8 @@ export default async function ActiveCommunities() {
       <div className="space-y-2">
         {communities.map((community) => (
           <div key={community.id}>
-            <h3 className="font-bold">{community.name}</h3>
-            <p>{community.description}</p>
+            <a href={`/communities/${community.slug}`}>{community.name}</a>
+            <p className="text-sm text-gray-500">{community.member_count} members</p>
           </div>
         ))}
       </div>
