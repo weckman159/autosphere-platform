@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export default async function RecentMarketplaceListings() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -34,12 +34,9 @@ export default async function RecentMarketplaceListings() {
       <h2 className="text-xl font-bold mb-2">Recent Marketplace Listings</h2>
       <div className="space-y-2">
         {listings.map((listing) => (
-          <div key={listing.id} className="flex items-center space-x-2">
-            <img src={listing.imageUrl} alt={listing.title} className="w-16 h-16 object-cover rounded-md" />
-            <div>
-              <h3 className="font-bold">{listing.title}</h3>
-              <p>{`$${listing.price}`}</p>
-            </div>
+          <div key={listing.id} className="border rounded p-2">
+            <h3 className="font-bold">{listing.title}</h3>
+            <p className="text-sm text-gray-500">${listing.price}</p>
           </div>
         ))}
       </div>
