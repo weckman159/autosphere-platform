@@ -1,41 +1,47 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function CarOfTheDay() {
-  const cookieStore = cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    },
-  );
-  const { data: cars } = await supabase.from("cars").select("*");
+  const supabase = createSupabaseServerClient();
 
-  if (!cars || cars.length === 0) {
+  const { count: carCount } = await supabase
+    .from("cars")
+    .select("*", { count: "exact", head: true });
+
+  if (carCount === null || carCount === 0) {
     return (
-      <div>
-        <h2 className="mb-2 text-xl font-bold">Car of the Day</h2>
-        <p>No cars found.</p>
+      <div className="rounded-lg border bg-white p-4 shadow-lg">
+        <h2 className="mb-2 text-2xl font-bold text-gray-800">Car of the Day</h2>
+        <p className="text-gray-600">No cars found.</p>
       </div>
     );
   }
 
-  const randomCar = cars[Math.floor(Math.random() * cars.length)];
+  const randomIndex = Math.floor(Math.random() * carCount);
+  const { data: randomCar } = await supabase
+    .from("cars")
+    .select("*")
+    .limit(1)
+    .range(randomIndex, randomIndex)
+    .single();
+
+  if (!randomCar) {
+    return (
+      <div className="rounded-lg border bg-white p-4 shadow-lg">
+        <h2 className="mb-2 text-2xl font-bold text-gray-800">Car of the Day</h2>
+        <p className="text-gray-600">No car found.</p>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h2 className="mb-2 text-xl font-bold">Car of the Day</h2>
+    <div className="rounded-lg border bg-white p-4 shadow-lg transition-shadow duration-300 hover:shadow-xl">
+      <h2 className="mb-4 text-2xl font-bold text-gray-800">Car of the Day</h2>
       <img
         src={randomCar.imageUrl}
         alt={`${randomCar.make} ${randomCar.model}`}
-        className="mb-2 h-64 w-full rounded-md object-cover"
+        className="mb-4 h-64 w-full rounded-lg object-cover shadow-md"
       />
-      <h3 className="text-lg font-bold">{`${randomCar.year} ${randomCar.make} ${randomCar.model}`}</h3>
+      <h3 className="text-xl font-semibold text-gray-700">{`${randomCar.year} ${randomCar.make} ${randomCar.model}`}</h3>
     </div>
   );
 }
