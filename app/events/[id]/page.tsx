@@ -1,7 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function EventDetailsPage({ params }: { params: { id: string } }) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: event } = await supabase
     .from("events")
     .select("*")

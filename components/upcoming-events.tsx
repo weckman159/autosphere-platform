@@ -1,7 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function UpcomingEvents() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: events } = await supabase
     .from("events")
     .select("*")

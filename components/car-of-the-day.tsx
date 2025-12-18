@@ -1,7 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function CarOfTheDay() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const { count: carCount } = await supabase
     .from("cars")
