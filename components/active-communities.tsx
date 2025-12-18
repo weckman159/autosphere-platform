@@ -12,7 +12,7 @@ export default async function ActiveCommunities() {
           return cookieStore.get(name)?.value;
         },
       },
-    }
+    },
   );
   const { data: communities } = await supabase
     .from("communities")
@@ -22,7 +22,7 @@ export default async function ActiveCommunities() {
   if (!communities || communities.length === 0) {
     return (
       <div>
-        <h2 className="text-xl font-bold mb-2">Active Communities</h2>
+        <h2 className="mb-2 text-xl font-bold">Active Communities</h2>
         <p>No active communities.</p>
       </div>
     );
@@ -30,7 +30,7 @@ export default async function ActiveCommunities() {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-2">Active Communities</h2>
+      <h2 className="mb-2 text-xl font-bold">Active Communities</h2>
       <div className="space-y-2">
         {communities.map((community) => (
           <div key={community.id}>

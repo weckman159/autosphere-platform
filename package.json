@@ -18,10 +18,13 @@
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@types/node": "latest",
     "@types/react": "latest",
     "autoprefixer": "latest",
     "postcss": "latest",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "latest",
     "typescript": "latest"
   }

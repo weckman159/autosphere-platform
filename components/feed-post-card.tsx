@@ -1,8 +1,3 @@
-
 export default function FeedPostCard() {
-  return (
-    <div>
-      {/* TODO: Implement FeedPostCard */}
-    </div>
-  );
+  return <div>{/* TODO: Implement FeedPostCard */}</div>;
 }

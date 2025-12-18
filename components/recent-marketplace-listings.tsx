@@ -12,7 +12,7 @@ export default async function RecentMarketplaceListings() {
           return cookieStore.get(name)?.value;
         },
       },
-    }
+    },
   );
   const { data: listings } = await supabase
     .from("marketplace_listings")
@@ -23,7 +23,7 @@ export default async function RecentMarketplaceListings() {
   if (!listings || listings.length === 0) {
     return (
       <div>
-        <h2 className="text-xl font-bold mb-2">Recent Marketplace Listings</h2>
+        <h2 className="mb-2 text-xl font-bold">Recent Marketplace Listings</h2>
         <p>No listings found.</p>
       </div>
     );
@@ -31,11 +31,15 @@ export default async function RecentMarketplaceListings() {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-2">Recent Marketplace Listings</h2>
+      <h2 className="mb-2 text-xl font-bold">Recent Marketplace Listings</h2>
       <div className="space-y-2">
         {listings.map((listing) => (
           <div key={listing.id} className="flex items-center space-x-2">
-            <img src={listing.imageUrl} alt={listing.title} className="w-16 h-16 object-cover rounded-md" />
+            <img
+              src={listing.imageUrl}
+              alt={listing.title}
+              className="h-16 w-16 rounded-md object-cover"
+            />
             <div>
               <h3 className="font-bold">{listing.title}</h3>
               <p>{`$${listing.price}`}</p>

@@ -12,14 +12,14 @@ export default async function CarOfTheDay() {
           return cookieStore.get(name)?.value;
         },
       },
-    }
+    },
   );
   const { data: cars } = await supabase.from("cars").select("*");
 
   if (!cars || cars.length === 0) {
     return (
       <div>
-        <h2 className="text-xl font-bold mb-2">Car of the Day</h2>
+        <h2 className="mb-2 text-xl font-bold">Car of the Day</h2>
         <p>No cars found.</p>
       </div>
     );
@@ -29,8 +29,12 @@ export default async function CarOfTheDay() {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-2">Car of the Day</h2>
-      <img src={randomCar.imageUrl} alt={`${randomCar.make} ${randomCar.model}`} className="w-full h-64 object-cover rounded-md mb-2" />
+      <h2 className="mb-2 text-xl font-bold">Car of the Day</h2>
+      <img
+        src={randomCar.imageUrl}
+        alt={`${randomCar.make} ${randomCar.model}`}
+        className="mb-2 h-64 w-full rounded-md object-cover"
+      />
       <h3 className="text-lg font-bold">{`${randomCar.year} ${randomCar.make} ${randomCar.model}`}</h3>
     </div>
   );

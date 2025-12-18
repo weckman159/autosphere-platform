@@ -1,34 +1,31 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
 
 export function ImageUpload() {
-  const [file, setFile] = useState<File | null>(null)
-  const [uploading, setUploading] = useState(false)
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
 
   const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!file) return
+    e.preventDefault();
+    if (!file) return;
 
-    setUploading(true)
+    setUploading(true);
     try {
-      const response = await fetch(
-        `/api/upload?filename=${file.name}`,
-        {
-          method: 'POST',
-          body: file,
-        }
-      )
+      const response = await fetch(`/api/upload?filename=${file.name}`, {
+        method: "POST",
+        body: file,
+      });
 
-      const blob = await response.json()
-      setUploadedUrl(blob.url)
+      const blob = await response.json();
+      setUploadedUrl(blob.url);
     } catch (error) {
-      console.error('Upload failed:', error)
+      console.error("Upload failed:", error);
     } finally {
-      setUploading(false)
+      setUploading(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-4">
@@ -37,33 +34,28 @@ export function ImageUpload() {
           type="file"
           accept="image/*"
           onChange={(e) => setFile(e.target.files?.[0] || null)}
-          className="block w-full text-sm text-gray-500
-            file:mr-4 file:py-2 file:px-4
-            file:rounded-lg file:border-0
-            file:text-sm file:font-semibold
-            file:bg-cyan-500 file:text-white
-            hover:file:bg-cyan-600"
+          className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-cyan-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-cyan-600"
         />
         <button
           type="submit"
           disabled={!file || uploading}
-          className="px-6 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 disabled:opacity-50"
+          className="rounded-lg bg-cyan-500 px-6 py-2 text-white hover:bg-cyan-600 disabled:opacity-50"
         >
-          {uploading ? 'Uploading...' : 'Upload Image'}
+          {uploading ? "Uploading..." : "Upload Image"}
         </button>
       </form>
 
       {uploadedUrl && (
         <div className="space-y-2">
-          <p className="text-green-500 font-semibold">Upload successful!</p>
+          <p className="font-semibold text-green-500">Upload successful!</p>
           <img
             src={uploadedUrl}
             alt="Uploaded"
-            className="rounded-lg max-w-md"
+            className="max-w-md rounded-lg"
           />
-          <p className="text-sm text-gray-600 break-all">{uploadedUrl}</p>
+          <p className="text-sm break-all text-gray-600">{uploadedUrl}</p>
         </div>
       )}
     </div>
-  )
+  );
 }

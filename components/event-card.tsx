@@ -1,8 +1,3 @@
-
 export default function EventCard() {
-  return (
-    <div>
-      {/* TODO: Implement EventCard */}
-    </div>
-  );
+  return <div>{/* TODO: Implement EventCard */}</div>;
 }

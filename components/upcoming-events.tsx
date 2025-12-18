@@ -12,7 +12,7 @@ export default async function UpcomingEvents() {
           return cookieStore.get(name)?.value;
         },
       },
-    }
+    },
   );
   const { data: events } = await supabase
     .from("events")
@@ -23,7 +23,7 @@ export default async function UpcomingEvents() {
   if (!events || events.length === 0) {
     return (
       <div>
-        <h2 className="text-xl font-bold mb-2">Upcoming Events</h2>
+        <h2 className="mb-2 text-xl font-bold">Upcoming Events</h2>
         <p>No upcoming events.</p>
       </div>
     );
@@ -31,7 +31,7 @@ export default async function UpcomingEvents() {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-2">Upcoming Events</h2>
+      <h2 className="mb-2 text-xl font-bold">Upcoming Events</h2>
       <div className="space-y-2">
         {events.map((event) => (
           <div key={event.id}>
